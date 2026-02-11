@@ -461,7 +461,7 @@ section { padding: 6rem 2rem; }
 }
 
 #contact {
-  padding: 6rem 2rem;
+  padding: 96px 32px;
 }
 
 /* CTA */
@@ -764,7 +764,7 @@ html, body {
   }
 
   #contact {
-    padding: 4rem 0.75rem;
+    padding: 48px 12px;
   }
 
   .cta-form-grid {
