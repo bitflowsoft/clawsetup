@@ -149,7 +149,7 @@ export default function Home() {
             <div className="section-label">Problem</div>
             <h2 className="section-title">OpenClaw, 왜 직접 설치하기 어려운가요?</h2>
             <p className="section-desc">
-              GitHub 스타 16만 개. 모두가 쓰고 싶지만, 설치와 운영은 쉽지 않습니다.
+              전 세계에서 가장 주목받는 AI 에이전트. 하지만 설치와 운영은 쉽지 않습니다.
             </p>
           </div>
           <div className="pain-grid">
@@ -412,7 +412,16 @@ export default function Home() {
           <form className="cta-form-grid" onSubmit={handleSubmit}>
             <input type="text" name="name" placeholder="이름 또는 회사명" required />
             <input type="email" name="email" placeholder="이메일 주소" required />
-            <input type="tel" name="phone" placeholder="연락처 (예: 010-1234-5678)" required />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="연락처 (예: 010-1234-5678)"
+              required
+              onInput={(e) => {
+                const input = e.currentTarget;
+                input.value = input.value.replace(/[^0-9-]/g, "");
+              }}
+            />
             <button type="submit" disabled={submitting}>
               {submitting ? "전송 중..." : "상담 신청"}
             </button>
