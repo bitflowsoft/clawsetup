@@ -413,18 +413,20 @@ export default function Home() {
       </section>
 
       {/* Kakao Floating Button */}
-      <a
-        href="http://pf.kakao.com/_gSShX"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="kakao-float"
-        aria-label="카카오톡으로 문의하기"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#3C1E1E">
-          <path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.727 1.818 5.117 4.545 6.463-.146.527-.94 3.39-.973 3.6 0 0-.02.163.086.225.106.063.23.015.23.015.303-.042 3.514-2.312 4.066-2.705.657.097 1.338.147 2.046.147 5.523 0 10-3.463 10-7.745C22 6.463 17.523 3 12 3z"/>
-        </svg>
-        <span>카카오톡 상담</span>
-      </a>
+      <div className="kakao-float-wrap">
+        <span className="kakao-float-label">바로 상담</span>
+        <a
+          href="http://pf.kakao.com/_gSShX"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="kakao-float-btn"
+          aria-label="카카오톡으로 문의하기"
+        >
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.89 5.31 4.72 6.71l-.97 3.59c-.09.32.26.58.54.4l4.2-2.77c.49.05.99.07 1.51.07 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="#3C1E1E"/>
+          </svg>
+        </a>
+      </div>
 
       {/* Footer */}
       <footer>
