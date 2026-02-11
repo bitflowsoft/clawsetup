@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenClaw 설치 & 커스터마이징 전문 서비스</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #FAFAFA;
+      --surface: #FFFFFF;
+      --text: #1A1A1A;
+      --text-secondary: #6B7280;
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
+      --accent-hover: #1D4ED8;
+      --border: #E5E7EB;
+      --gradient-start: #2563EB;
+      --gradient-end: #7C3AED;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-weight: 800; font-size: 1.15rem; color: var(--text);
+      text-decoration: none; letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      font-size: 0.875rem; color: var(--text-secondary);
+      text-decoration: none; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--text) !important; color: #fff !important;
+      padding: 0.5rem 1.25rem; border-radius: 8px;
+      font-weight: 600 !important; font-size: 0.875rem !important;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 8px; color: var(--text);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10rem 2rem 6rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--accent-light) 0%, var(--bg) 100%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 0.4rem 1rem; border-radius: 100px;
+      font-size: 0.8rem; font-weight: 600; color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22C55E; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.2; margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.125rem; color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent); color: #fff;
+      padding: 0.875rem 2rem; border-radius: 12px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      transition: all 0.2s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface); color: var(--text);
+      padding: 0.875rem 2rem; border-radius: 12px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      border: 1px solid var(--border); transition: all 0.2s; cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: var(--text); }
+
+    /* ── Sections ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1120px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.8rem; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 1rem; line-height: 1.3;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--text-secondary);
+      max-width: 600px; line-height: 1.8;
+    }
+    .section-header { margin-bottom: 3.5rem; }
+
+    /* ── Pain Points ── */
+    .pain-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .pain-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      transition: all 0.3s;
+    }
+    .pain-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+    .pain-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.25rem;
+    }
+    .pain-icon.red { background: #FEF2F2; }
+    .pain-icon.amber { background: #FFFBEB; }
+    .pain-icon.purple { background: #F5F3FF; }
+    .pain-card h3 {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .pain-card p { font-size: 0.925rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── Services ── */
+    .services-section { background: var(--surface); }
+    .service-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+      position: relative; overflow: hidden;
+      transition: all 0.3s;
+    }
+    .service-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+    .service-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
+    }
+    .service-tag {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--accent); color: #fff;
+      padding: 0.25rem 0.75rem; border-radius: 100px;
+    }
+    .service-card h3 {
+      font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .service-price {
+      font-size: 0.9rem; color: var(--accent); font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+    .service-list { list-style: none; margin-bottom: 2rem; }
+    .service-list li {
+      font-size: 0.9rem; color: var(--text-secondary);
+      padding: 0.4rem 0; padding-left: 1.5rem;
+      position: relative; line-height: 1.6;
+    }
+    .service-list li::before {
+      content: "✓"; position: absolute; left: 0;
+      color: var(--accent); font-weight: 700;
+    }
+
+    /* ── Process ── */
+    .process-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+    .process-step { text-align: center; }
+    .process-num {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: var(--accent-light); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; font-weight: 800;
+      margin: 0 auto 1.25rem;
+    }
+    .process-step h3 {
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .process-step p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── Stats ── */
+    .stats-bar {
+      background: var(--text);
+      padding: 3.5rem 2rem; border-radius: 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 2rem; text-align: center;
+      margin-top: 4rem;
+    }
+    .stat-item .stat-num {
+      font-size: 2rem; font-weight: 800; color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .stat-item .stat-label {
+      font-size: 0.825rem; color: rgba(255,255,255,0.6);
+      margin-top: 0.25rem;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 720px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+    .faq-q {
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; user-select: none;
+    }
+    .faq-q::after {
+      content: "+"; font-size: 1.25rem; color: var(--text-secondary);
+      flex-shrink: 0; transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after { content: "−"; }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-top: 0.75rem; }
+    .faq-a p { font-size: 0.925rem; color: var(--text-secondary); line-height: 1.8; }
+
+    /* ── CTA / Contact ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 24px; padding: 4rem 2rem;
+      text-align: center; color: #fff;
+      max-width: 1120px; margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800; margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .cta-section p {
+      font-size: 1.05rem; opacity: 0.9;
+      max-width: 500px; margin: 0 auto 2rem;
+    }
+    .cta-form {
+      display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .cta-form input {
+      flex: 1; min-width: 200px;
+      padding: 0.875rem 1.25rem; border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.15);
+      color: #fff; font-size: 0.95rem;
+      font-family: inherit;
+      outline: none; transition: border-color 0.2s;
+    }
+    .cta-form input::placeholder { color: rgba(255,255,255,0.6); }
+    .cta-form input:focus { border-color: #fff; }
+    .cta-form button {
+      background: #fff; color: var(--accent);
+      padding: 0.875rem 1.75rem; border-radius: 12px;
+      font-weight: 700; font-size: 0.95rem;
+      border: none; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .cta-form button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 2rem; text-align: center;
+      font-size: 0.825rem; color: var(--text-secondary);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--surface); padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        gap: 1rem;
+      }
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 8rem 1.25rem 4rem; }
+      .stats-bar { border-radius: 16px; padding: 2.5rem 1.5rem; }
+      .cta-section { border-radius: 16px; margin: 0 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Claw<span>Setup</span></a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="메뉴">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="#problems">왜 필요한가</a>
+        <a href="#services">서비스</a>
+        <a href="#process">진행 절차</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="nav-cta">무료 상담 신청</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        OpenClaw 설치 & 커스터마이징 전문
+      </div>
+      <h1>
+        OpenClaw, <span class="gradient-text">설치부터 커스터마이징까지</span><br/>
+        전문가에게 맡기세요
+      </h1>
+      <p>
+        복잡한 환경 세팅, 보안 설정, 메신저 연동, 스킬 구성까지.
+        AI 에이전트의 모든 셋업을 대신 해드립니다.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">
+          무료 상담 받기
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l7-7M5 5h7v7"/></svg>
+        </a>
+        <a href="#services" class="btn-secondary">서비스 알아보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Points -->
+  <section id="problems">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Problem</div>
+        <h2 class="section-title">OpenClaw, 왜 직접 설치하기 어려운가요?</h2>
+        <p class="section-desc">GitHub 스타 16만 개. 모두가 쓰고 싶지만, 설치와 운영은 쉽지 않습니다.</p>
+      </div>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon red">⚙️</div>
+          <h3>복잡한 설치 과정</h3>
+          <p>Node.js, npm, WSL2(Windows), 데몬 설정, API 키 발급 등 10단계 이상의 셋업 과정을 거쳐야 합니다. 비개발자에게는 사실상 불가능에 가까운 진입 장벽입니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon amber">🔒</div>
+          <h3>보안 취약점 위험</h3>
+          <p>CVE-2026-25253(CVSS 8.8) 등 치명적 보안 이슈가 발견되고 있습니다. 잘못된 설정은 이메일, 캘린더, 메신저 등 민감한 데이터 유출로 이어질 수 있습니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon purple">🔧</div>
+          <h3>커스터마이징의 벽</h3>
+          <p>스킬 설정, Ollama 로컬 모델 연동, 메신저 봇 연결, 워크스페이스 구성 등 원하는 대로 사용하려면 깊은 기술적 이해가 필요합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="services-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Services</div>
+        <h2 class="section-title">필요한 만큼만 선택하세요</h2>
+        <p class="section-desc">기본 설치부터 엔터프라이즈급 커스터마이징까지, 상황에 맞는 서비스를 제공합니다.</p>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Basic 설치</h3>
+          <div class="service-price">상담 후 견적 안내</div>
+          <ul class="service-list">
+            <li>운영체제별 환경 세팅 (Mac / Windows / Linux)</li>
+            <li>OpenClaw 최신 버전 설치 및 온보딩</li>
+            <li>AI 모델 API 키 연동 (Anthropic, OpenAI 등)</li>
+            <li>메신저 1개 채널 연동 (Telegram / Discord 등)</li>
+            <li>기본 보안 설정 및 가이드 문서 제공</li>
+          </ul>
+          <a href="#contact" class="btn-secondary" style="width:100%;justify-content:center;">상담 신청</a>
+        </div>
+        <div class="service-card featured">
+          <span class="service-tag">추천</span>
+          <h3>Pro 커스터마이징</h3>
+          <div class="service-price">상담 후 견적 안내</div>
+          <ul class="service-list">
+            <li>Basic 설치 전체 포함</li>
+            <li>커스텀 스킬 3개 구성 및 세팅</li>
+            <li>Ollama 로컬 AI 모델 연동</li>
+            <li>메신저 멀티 채널 연동 (최대 3개)</li>
+            <li>보안 강화 설정 (포트 제한, 인증 모드 등)</li>
+            <li>1개월 기술 지원 포함</li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="width:100%;justify-content:center;">상담 신청</a>
+        </div>
+        <div class="service-card">
+          <h3>Enterprise</h3>
+          <div class="service-price">맞춤 견적</div>
+          <ul class="service-list">
+            <li>Pro 커스터마이징 전체 포함</li>
+            <li>전용 서버(미니PC, 클라우드) 구축 컨설팅</li>
+            <li>팀 전용 워크스페이스 및 권한 설정</li>
+            <li>사내 시스템 연동 (이메일, 캘린더, CRM 등)</li>
+            <li>보안 감사 및 취약점 점검</li>
+            <li>3개월 유지보수 및 업데이트 지원</li>
+          </ul>
+          <a href="#contact" class="btn-secondary" style="width:100%;justify-content:center;">상담 신청</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="process">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Process</div>
+        <h2 class="section-title">4단계로 완료됩니다</h2>
+        <p class="section-desc">상담부터 완료까지, 복잡한 과정을 심플하게.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <h3>무료 상담</h3>
+          <p>사용 환경, 목적, 예산을 파악하고 최적의 서비스 패키지를 추천해 드립니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <h3>환경 분석</h3>
+          <p>운영체제, 네트워크, 보안 요구사항 등 기술적 환경을 사전 점검합니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <h3>설치 & 세팅</h3>
+          <p>원격 접속으로 OpenClaw 설치, 메신저 연동, 스킬 구성, 보안 설정을 진행합니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <h3>인수 & 교육</h3>
+          <p>사용법 교육과 가이드 문서를 제공하고, 약정 기간 동안 기술 지원을 드립니다.</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-num">160K+</div>
+          <div class="stat-label">OpenClaw GitHub Stars</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2시간</div>
+          <div class="stat-label">평균 설치 완료 시간</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">원격 진행 가능</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">24h</div>
+          <div class="stat-label">기술 지원 응답</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">자주 묻는 질문</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            OpenClaw이 정확히 무엇인가요?
+          </div>
+          <div class="faq-a">
+            <p>OpenClaw는 오스트리아 개발자 Peter Steinberger가 만든 오픈소스 AI 에이전트입니다. 사용자의 컴퓨터에서 로컬로 실행되며, Telegram, WhatsApp, Discord 등 메신저를 통해 명령을 내리면 이메일 관리, 코드 실행, 파일 작업 등을 자동으로 수행합니다. ChatGPT 같은 챗봇과 달리, 실제로 컴퓨터에서 작업을 '실행'하는 것이 핵심 차이점입니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            비개발자도 사용할 수 있나요?
+          </div>
+          <div class="faq-a">
+            <p>네, 그것이 바로 저희 서비스의 존재 이유입니다. 설치와 초기 세팅은 기술적 지식이 필요하지만, 저희가 모든 셋업을 완료해 드리면 이후 사용은 메신저 대화를 하듯 자연스럽게 가능합니다. 사용법 교육과 가이드 문서도 함께 제공해 드립니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            보안은 안전한가요?
+          </div>
+          <div class="faq-a">
+            <p>OpenClaw는 이메일, 캘린더 등 민감한 서비스에 접근하므로 보안 설정이 매우 중요합니다. 저희는 최신 보안 패치 적용, 포트 제한, 인증 모드 설정, 별도 계정/환경 분리 등 체계적인 보안 강화 설정을 기본으로 제공합니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            어떤 컴퓨터가 필요한가요?
+          </div>
+          <div class="faq-a">
+            <p>Mac, Windows, Linux 모두 지원됩니다. 24시간 AI 에이전트를 운영하려면 전용 장비(맥 미니, 미니PC, 라즈베리파이 등)를 권장하며, 클라우드 서버 구축도 가능합니다. 상담 시 최적의 환경을 함께 안내해 드립니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            API 키 비용은 별도인가요?
+          </div>
+          <div class="faq-a">
+            <p>네, OpenClaw를 사용하려면 AI 모델 API 키(Anthropic Claude, OpenAI 등)가 필요하며, 해당 비용은 사용량에 따라 각 제공사에 직접 결제하는 구조입니다. 완전 무료로 사용하고 싶으시면 Ollama를 통한 로컬 AI 모델 연동 서비스도 제공합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" style="padding: 6rem 2rem;">
+    <div class="cta-section">
+      <h2>지금 무료 상담을 신청하세요</h2>
+      <p>사용 환경과 목적을 알려주시면, 최적의 서비스 패키지와 견적을 안내해 드립니다.</p>
+      <form class="cta-form" onsubmit="handleSubmit(event)">
+        <input type="text" name="name" placeholder="이름 또는 회사명" required />
+        <input type="email" name="email" placeholder="이메일 주소" required />
+        <button type="submit">상담 신청</button>
+      </form>
+      <p style="font-size:0.8rem; opacity:0.7; margin-top:1rem;">
+        * 영업일 기준 24시간 이내 답변 드립니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 ClawSetup. OpenClaw와 공식적인 제휴 관계는 없으며, 독립적인 기술 서비스 제공업체입니다.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple form handler (placeholder)
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      const email = form.email.value;
+      alert(`감사합니다, ${name}님! ${email}로 상담 안내를 보내드리겠습니다.`);
+      form.reset();
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document.querySelector('.nav-links').classList.remove('open');
+        }
+      });
+    });
+
+    // Navbar background on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.background = window.scrollY > 20
+        ? 'rgba(255,255,255,0.95)'
+        : 'rgba(255,255,255,0.85)';
+    });
+  </script>
+</body>
+</html>
