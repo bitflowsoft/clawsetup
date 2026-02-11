@@ -446,7 +446,7 @@ export default function Home() {
       <div className="kakao-float-wrap">
         <span className="kakao-float-label">바로 상담</span>
         <a
-          href="http://pf.kakao.com/_gSShX"
+          href="https://pf.kakao.com/_xlZxjxl"
           target="_blank"
           rel="noopener noreferrer"
           className="kakao-float-btn"
