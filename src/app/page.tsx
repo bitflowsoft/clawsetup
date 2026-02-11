@@ -365,16 +365,40 @@ export default function Home() {
             사용 환경과 목적을 알려주시면, 최적의 서비스 패키지와 견적을 안내해
             드립니다.
           </p>
-          <form className="cta-form" onSubmit={handleSubmit}>
+          <form className="cta-form-grid" onSubmit={handleSubmit}>
             <input type="text" name="name" placeholder="이름 또는 회사명" required />
             <input type="email" name="email" placeholder="이메일 주소" required />
+            <input type="tel" name="phone" placeholder="연락처 (예: 010-1234-5678)" required />
             <button type="submit">상담 신청</button>
           </form>
+          <div className="cta-divider">
+            <span>또는</span>
+          </div>
+          <a href="tel:010-9062-4281" className="cta-phone-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            즉시 전화 상담: 010-9062-4281
+          </a>
           <p style={{ fontSize: "0.8rem", opacity: 0.7, marginTop: "1rem" }}>
             * 영업일 기준 24시간 이내 답변 드립니다.
           </p>
         </div>
       </section>
+
+      {/* Kakao Floating Button */}
+      <a
+        href="http://pf.kakao.com/_gSShX"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="kakao-float"
+        aria-label="카카오톡으로 문의하기"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#3C1E1E">
+          <path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.727 1.818 5.117 4.545 6.463-.146.527-.94 3.39-.973 3.6 0 0-.02.163.086.225.106.063.23.015.23.015.303-.042 3.514-2.312 4.066-2.705.657.097 1.338.147 2.046.147 5.523 0 10-3.463 10-7.745C22 6.463 17.523 3 12 3z"/>
+        </svg>
+        <span>카카오톡 상담</span>
+      </a>
 
       {/* Footer */}
       <footer>
