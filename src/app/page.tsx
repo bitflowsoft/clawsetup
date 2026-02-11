@@ -2,9 +2,13 @@
 
 import { useState, useEffect, FormEvent, useRef } from "react";
 import { Terminal, ShieldAlert, Puzzle } from "lucide-react";
+import * as gtag from "@/lib/gtag";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // 스크롤 섹션 트래킹을 위한 상태
+  const [trackedSections, setTrackedSections] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,10 +19,24 @@ export default function Home() {
             ? "rgba(255,255,255,0.95)"
             : "rgba(255,255,255,0.85)";
       }
+
+      // 섹션 스크롤 트래킹
+      const sections = ["problems", "services", "process", "faq", "contact"];
+      sections.forEach((sectionId) => {
+        if (trackedSections.has(sectionId)) return;
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.7) {
+            gtag.trackScrollSection(sectionId);
+            setTrackedSections((prev) => new Set([...prev, sectionId]));
+          }
+        }
+      });
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [trackedSections]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -30,7 +48,14 @@ export default function Home() {
 
   const toggleFaq = (e: React.MouseEvent<HTMLDivElement>) => {
     const item = e.currentTarget.closest(".faq-item");
-    if (item) item.classList.toggle("open");
+    if (item) {
+      const isOpening = !item.classList.contains("open");
+      item.classList.toggle("open");
+      if (isOpening) {
+        const question = e.currentTarget.textContent || "";
+        gtag.trackFaqOpen(question);
+      }
+    }
   };
 
   const [submitting, setSubmitting] = useState(false);
@@ -74,12 +99,15 @@ export default function Home() {
       });
 
       if (res.ok) {
+        gtag.trackFormSubmitSuccess();
         alert(`감사합니다, ${name}님! 빠른 시간 내에 연락드리겠습니다.`);
         form.reset();
       } else {
+        gtag.trackFormSubmitError("서버 응답 실패");
         alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
       }
     } catch {
+      gtag.trackFormSubmitError("네트워크 오류");
       alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     } finally {
       setSubmitting(false);
@@ -104,11 +132,11 @@ export default function Home() {
             </svg>
           </button>
           <div className={`nav-links${mobileMenuOpen ? " open" : ""}`}>
-            <a href="#problems" onClick={(e) => { e.preventDefault(); scrollTo("problems"); }}>왜 필요한가</a>
-            <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>서비스</a>
-            <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>진행 절차</a>
-            <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
-            <a href="#contact" className="nav-cta" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>무료 상담 신청</a>
+            <a href="#problems" onClick={(e) => { e.preventDefault(); gtag.trackNavClick("왜 필요한가"); scrollTo("problems"); }}>왜 필요한가</a>
+            <a href="#services" onClick={(e) => { e.preventDefault(); gtag.trackNavClick("서비스"); scrollTo("services"); }}>서비스</a>
+            <a href="#process" onClick={(e) => { e.preventDefault(); gtag.trackNavClick("진행 절차"); scrollTo("process"); }}>진행 절차</a>
+            <a href="#faq" onClick={(e) => { e.preventDefault(); gtag.trackNavClick("FAQ"); scrollTo("faq"); }}>FAQ</a>
+            <a href="#contact" className="nav-cta" onClick={(e) => { e.preventDefault(); gtag.trackNavClick("무료 상담 신청"); scrollTo("contact"); }}>무료 상담 신청</a>
           </div>
         </div>
       </nav>
@@ -130,13 +158,13 @@ export default function Home() {
             AI 에이전트의 모든 셋업을 대신 해드립니다.
           </p>
           <div className="hero-actions">
-            <a href="#contact" className="btn-primary" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>
+            <a href="#contact" className="btn-primary" onClick={(e) => { e.preventDefault(); gtag.trackHeroPrimaryCTA(); scrollTo("contact"); }}>
               무료 상담 받기
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12l7-7M5 5h7v7" />
               </svg>
             </a>
-            <a href="#services" className="btn-secondary" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>
+            <a href="#services" className="btn-secondary" onClick={(e) => { e.preventDefault(); gtag.trackHeroSecondaryCTA(); scrollTo("services"); }}>
               서비스 알아보기
             </a>
           </div>
@@ -210,7 +238,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-secondary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServiceBasic(); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -231,7 +259,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-primary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServicePro(); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -251,7 +279,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-secondary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServiceEnterprise(); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -430,7 +458,7 @@ export default function Home() {
           <div className="cta-divider">
             <span>또는</span>
           </div>
-          <a href="tel:010-9062-4281" className="cta-phone-btn">
+          <a href="tel:010-9062-4281" className="cta-phone-btn" onClick={() => gtag.trackPhoneCall()}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
@@ -451,6 +479,7 @@ export default function Home() {
           rel="noopener noreferrer"
           className="kakao-float-btn"
           aria-label="카카오톡으로 문의하기"
+          onClick={() => gtag.trackKakaoChat()}
         >
           <svg viewBox="0 0 24 24" fill="none">
             <path d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.89 5.31 4.72 6.71l-.97 3.59c-.09.32.26.58.54.4l4.2-2.77c.49.05.99.07 1.51.07 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="#3C1E1E"/>
