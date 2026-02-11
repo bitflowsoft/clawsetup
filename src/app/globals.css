@@ -718,7 +718,11 @@ html, body {
   .cta-section {
     border-radius: 16px;
     margin: 0;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1rem;
+  }
+
+  #contact {
+    padding: 4rem 0.75rem;
   }
 
   .cta-form-grid {
