@@ -35,15 +35,35 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const cleaned = phone.replace(/[-\s]/g, "");
+    return /^01[016789]\d{7,8}$/.test(cleaned);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
-    setSubmitting(true);
 
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const phone = (form.elements.namedItem("phone") as HTMLInputElement).value;
+
+    if (!validateEmail(email)) {
+      alert("올바른 이메일 형식을 입력해주세요.");
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      alert("올바른 전화번호를 입력해주세요. (예: 010-1234-5678)");
+      return;
+    }
+
+    setSubmitting(true);
 
     try {
       const res = await fetch("/api/contact", {
