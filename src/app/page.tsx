@@ -403,7 +403,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section id="contact" style={{ padding: "6rem 2rem" }}>
+      <section id="contact">
         <div className="cta-section">
           <h2>지금 무료 상담을 신청하세요</h2>
           <p>
@@ -446,7 +446,7 @@ export default function Home() {
       <div className="kakao-float-wrap">
         <span className="kakao-float-label">바로 상담</span>
         <a
-          href="https://pf.kakao.com/_xlZxjxl"
+          href="https://pf.kakao.com/_gSShX"
           target="_blank"
           rel="noopener noreferrer"
           className="kakao-float-btn"

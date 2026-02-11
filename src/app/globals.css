@@ -460,6 +460,10 @@ section { padding: 6rem 2rem; }
   line-height: 1.8;
 }
 
+#contact {
+  padding: 6rem 2rem;
+}
+
 /* CTA */
 .cta-section {
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
