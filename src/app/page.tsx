@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, useRef } from "react";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -32,13 +32,37 @@ export default function Home() {
     if (item) item.classList.toggle("open");
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [submitting, setSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    alert(`감사합니다, ${name}님! ${email}로 상담 안내를 보내드리겠습니다.`);
-    form.reset();
+    const phone = (form.elements.namedItem("phone") as HTMLInputElement).value;
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone }),
+      });
+
+      if (res.ok) {
+        alert(`감사합니다, ${name}님! 빠른 시간 내에 연락드리겠습니다.`);
+        form.reset();
+      } else {
+        alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    } catch {
+      alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -369,7 +393,9 @@ export default function Home() {
             <input type="text" name="name" placeholder="이름 또는 회사명" required />
             <input type="email" name="email" placeholder="이메일 주소" required />
             <input type="tel" name="phone" placeholder="연락처 (예: 010-1234-5678)" required />
-            <button type="submit">상담 신청</button>
+            <button type="submit" disabled={submitting}>
+              {submitting ? "전송 중..." : "상담 신청"}
+            </button>
           </form>
           <div className="cta-divider">
             <span>또는</span>
