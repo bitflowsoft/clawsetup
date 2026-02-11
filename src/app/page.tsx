@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent, useRef } from "react";
+import { Terminal, ShieldAlert, Puzzle } from "lucide-react";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -154,7 +155,7 @@ export default function Home() {
           </div>
           <div className="pain-grid">
             <div className="pain-card">
-              <div className="pain-icon red">⚙️</div>
+              <div className="pain-icon red"><Terminal size={28} /></div>
               <h3>복잡한 설치 과정</h3>
               <p>
                 Node.js, npm, WSL2(Windows), 데몬 설정, API 키 발급 등 10단계 이상의
@@ -163,7 +164,7 @@ export default function Home() {
               </p>
             </div>
             <div className="pain-card">
-              <div className="pain-icon amber">🔒</div>
+              <div className="pain-icon amber"><ShieldAlert size={28} /></div>
               <h3>보안 취약점 위험</h3>
               <p>
                 CVE-2026-25253(CVSS 8.8) 등 치명적 보안 이슈가 발견되고 있습니다.
@@ -172,7 +173,7 @@ export default function Home() {
               </p>
             </div>
             <div className="pain-card">
-              <div className="pain-icon purple">🔧</div>
+              <div className="pain-icon purple"><Puzzle size={28} /></div>
               <h3>커스터마이징의 벽</h3>
               <p>
                 스킬 설정, Ollama 로컬 모델 연동, 메신저 봇 연결, 워크스페이스 구성 등

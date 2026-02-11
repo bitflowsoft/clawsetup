@@ -261,9 +261,9 @@ section { padding: 6rem 2rem; }
   margin-bottom: 1.25rem;
 }
 
-.pain-icon.red { background: #FEF2F2; }
-.pain-icon.amber { background: #FFFBEB; }
-.pain-icon.purple { background: #F5F3FF; }
+.pain-icon.red { background: #FEF2F2; color: #DC2626; }
+.pain-icon.amber { background: #FFFBEB; color: #D97706; }
+.pain-icon.purple { background: #F5F3FF; color: #7C3AED; }
 
 .pain-card h3 {
   font-size: 1.1rem;
