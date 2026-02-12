@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent, useRef } from "react";
 import { Terminal, ShieldAlert, Puzzle } from "lucide-react";
 import * as gtag from "@/lib/gtag";
+import * as fbpixel from "@/lib/fbpixel";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -100,6 +101,7 @@ export default function Home() {
 
       if (res.ok) {
         gtag.trackFormSubmitSuccess();
+        fbpixel.trackFormSubmit();
         alert(`감사합니다, ${name}님! 빠른 시간 내에 연락드리겠습니다.`);
         form.reset();
       } else {
@@ -158,7 +160,7 @@ export default function Home() {
             AI 에이전트의 모든 셋업을 대신 해드립니다.
           </p>
           <div className="hero-actions">
-            <a href="#contact" className="btn-primary" onClick={(e) => { e.preventDefault(); gtag.trackHeroPrimaryCTA(); scrollTo("contact"); }}>
+            <a href="#contact" className="btn-primary" onClick={(e) => { e.preventDefault(); gtag.trackHeroPrimaryCTA(); fbpixel.trackCtaClick("무료 상담 받기"); scrollTo("contact"); }}>
               무료 상담 받기
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12l7-7M5 5h7v7" />
@@ -238,7 +240,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-secondary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); gtag.trackServiceBasic(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServiceBasic(); fbpixel.trackServiceClick("basic"); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -259,7 +261,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-primary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); gtag.trackServicePro(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServicePro(); fbpixel.trackServiceClick("pro"); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -279,7 +281,7 @@ export default function Home() {
                 href="#contact"
                 className="btn-secondary"
                 style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => { e.preventDefault(); gtag.trackServiceEnterprise(); scrollTo("contact"); }}
+                onClick={(e) => { e.preventDefault(); gtag.trackServiceEnterprise(); fbpixel.trackServiceClick("enterprise"); scrollTo("contact"); }}
               >
                 상담 신청
               </a>
@@ -458,7 +460,7 @@ export default function Home() {
           <div className="cta-divider">
             <span>또는</span>
           </div>
-          <a href="tel:010-9062-4281" className="cta-phone-btn" onClick={() => gtag.trackPhoneCall()}>
+          <a href="tel:010-9062-4281" className="cta-phone-btn" onClick={() => { gtag.trackPhoneCall(); fbpixel.trackPhoneClick(); }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
@@ -479,7 +481,7 @@ export default function Home() {
           rel="noopener noreferrer"
           className="kakao-float-btn"
           aria-label="카카오톡으로 문의하기"
-          onClick={() => gtag.trackKakaoChat()}
+          onClick={() => { gtag.trackKakaoChat(); fbpixel.trackKakaoClick(); }}
         >
           <svg viewBox="0 0 24 24" fill="none">
             <path d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.89 5.31 4.72 6.71l-.97 3.59c-.09.32.26.58.54.4l4.2-2.77c.49.05.99.07 1.51.07 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="#3C1E1E"/>
