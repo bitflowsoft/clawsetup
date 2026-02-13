@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,6 +16,9 @@ export const metadata: Metadata = {
     siteName: "ClawSetup",
     locale: "ko_KR",
     type: "website",
+  },
+  alternates: {
+    canonical: "https://clawsetup.newdev.it",
   },
 };
 
@@ -64,7 +69,11 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <SpeedInsights />
+        <Analytics />
+      </body>
     </html>
   );
 }
